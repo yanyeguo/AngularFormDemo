@@ -1,0 +1,26 @@
+<form [formGroup]="formModel" (submit)="onSubmit()">
+  <div>用户名：<input [class.hasError1]="formModel.get('username').invalid&&formModel.get('username').touched" type="text" formControlName='username'> </div>
+  <!-- <div [hidden]="formModel.get('username').valid||formModel.get('username').untouched"> -->
+  <div [hidden]="formModel.get('username').untouched">
+    <div [hidden]="!formModel.hasError('required','username')">用户名必填</div>
+    <div [hidden]="!formModel.hasError('minlength','username')">最小长度为6</div>
+  </div>
+  <div>手机号：<input type="text" formControlName='mobile'> </div>
+  <div [hidden]="formModel.get('mobile').valid||formModel.get('mobile').pristine">
+    <div [hidden]="!formModel.hasError('mobile','mobile')">手机号不正确</div>
+  </div>
+  <div [hidden]="!formModel.get('mobile').pending">
+      正在校验手机号合法性
+  </div>
+  <div formGroupName="passwordsGroup">
+    <div>密码：<input type="password" formControlName='passwords'> </div>
+    <div [hidden]="!formModel.hasError('minlength',['passwordsGroup','passwords'])">最小长度为6</div>
+    <div>确认密码：<input type="password" formControlName='pawwwords2'> </div>
+    <!-- <div [hidden]="!formModel.hasError('equal','passwordsGroup')" >密码不相等</div> -->
+    <div [hidden]="!formModel.hasError('equal','passwordsGroup')">{{formModel.getError('equal','passwordsGroup')?.descy}}</div>
+  </div>
+
+  <button type="submit">注册</button>
+
+</form>
+<div>{{formModel.status}}</div>
